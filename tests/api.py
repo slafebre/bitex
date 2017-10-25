@@ -7,8 +7,8 @@ import json
 
 # Import Homebrew
 from bitex.api.REST.api import APIClient
-from bitex.api.REST.rest import KrakenREST, CryptopiaREST, CCEXRest, GeminiREST
-from bitex.api.REST.rest import YunbiREST, RockTradingREST
+from bitex.api.REST.rest import KrakenREST, CryptopiaREST, CexioREST, \
+    CCEXRest, GeminiREST, YunbiREST, RockTradingREST
 
 log = logging.getLogger(__name__)
 
@@ -17,6 +17,7 @@ class APITests(unittest.TestCase):
     """
     Tests APIs for connection establishment, authentication, key loading.
     """
+
     def setUp(self):
         self.api = APIClient('http://google.com/api', api_version='v1',
                              key='12345', secret='abcde')
@@ -36,15 +37,15 @@ class APITests(unittest.TestCase):
     def test_restapi_query(self):
         # Test that the unauthenticated request is built correctly
         r = self.api.query('testing/endpoint/', authenticate=False,
-                       request_method=requests.get,
-                       params={'test_param': "chimichanga"})
+                           request_method=requests.get,
+                           params={'test_param': "chimichanga"})
         url = 'http://google.com/api/v1/testing/endpoint/?test_param=chimichanga'
         self.assertTrue(r.request.url == url)
 
         # Test that authentication requests are built correctly
         r = self.api.query('testing/endpoint/', authenticate=True,
-                       request_method=requests.get,
-                       params={'test_param': "chimichanga"})
+                           request_method=requests.get,
+                           params={'test_param': "chimichanga"})
         url = 'http://google.com/api/v1/testing/endpoint/?test_param=authenticated_chimichanga'
         self.assertTrue(r.request.url == url)
 
@@ -121,6 +122,25 @@ class CCEXAPITest(APITests):
         self.fail("Test not implemented!")
 
 
+class CexioAPITest(APITests):
+    def setUp(self):
+        self.api = CexioREST()
+
+    def test_public_query(self):
+        # query() returns a valid requests.Response object
+        r = self.api.query('GET', 'order_book/BTC/EUR/',
+                           params={'depth': 8})
+        self.assertIsInstance(r, requests.Response)
+        self.assertEqual(r.status_code, 200)
+
+        # query() is successful (No errors)
+        self.assertTrue(r.json()['pair'],
+                        'BTC:EUR')
+
+    def test_private_query(self):
+        self.fail("Test not implemented!")
+
+
 class GeminiAPITest(APITests):
     def setUp(self):
         self.api = GeminiREST()
@@ -132,7 +152,8 @@ class GeminiAPITest(APITests):
         self.assertEqual(r.status_code, 200)
 
         # query() is successful (No error message)
-        self.assertNotIn('message', r.json(), "Error in Response: %s" % r.request.url)
+        self.assertNotIn('message', r.json(),
+                         "Error in Response: %s" % r.request.url)
 
     def test_private_query(self):
         self.fail("Test not implemented!")
@@ -170,4 +191,3 @@ class TheRockTradingAPITest(APITests):
 
     def test_private_query(self):
         self.fail("Test not implemented!")
-

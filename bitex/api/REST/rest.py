@@ -114,6 +114,40 @@ class BittrexREST(APIClient):
         return self.uri + req_string, {'headers': headers, 'params': {}}
 
 
+class CexioREST(APIClient):
+    def __init__(self, key=None, secret=None, api_version='api',
+                 url='https://cex.io', timeout=5):
+        super(CexioREST, self).__init__(url, api_version=api_version,
+                                            key=key, secret=secret,
+                                            timeout=timeout)
+
+    def load_key(self, path):
+        """
+        Load key and secret from file.
+        """
+        with open(path, 'r') as f:
+            self.key = f.readline().strip()
+            self.secret = f.readline().strip()
+            self.id = f.readline().strip()
+
+    def sign(self, url, endpoint, endpoint_path, method_verb, *args, **kwargs):
+        nonce = self.nonce()
+        try:
+            params = kwargs['params']
+        except KeyError:
+            params = {}
+        message = nonce + self.id + self.key
+        signature = hmac.new(self.secret.encode(), msg=message.encode(),
+                             digestmod=hashlib.sha256)
+        signature = signature.hexdigest().upper()
+
+        params['nonce'] = nonce
+        params['key'] = self.key
+        params['signature'] = signature
+
+        return url, {'data': params}
+
+
 class CoincheckREST(APIClient):
     def __init__(self, key=None, secret=None, api_version='api',
                  url='https://coincheck.com', timeout=5):
@@ -488,6 +522,37 @@ class QuoineREST(APIClient):
         if not jwt_available:
             raise SystemError("No JWT Installed! Quoine API Unavailable!")
         super(QuoineREST, self).__init__(url, api_version=api_version,
+                                         key=key, secret=secret, timeout=timeout)
+
+    def sign(self, uri, endpoint, endpoint_path, method_verb, *args, **kwargs):
+        try:
+            params = kwargs['params']
+        except KeyError:
+            params = {}
+
+        if method_verb != 'POST':
+            endpoint_path += urllib.parse.urlencode(params)
+        msg = {'path': endpoint_path, 'nonce': self.nonce(), 'token_id': self.key}
+
+        signature = jwt.encode(msg, self.secret, algorithm='HS256')
+        headers = {'X-Quoine-API-Version': '2', 'X-Quoine-Auth': signature,
+                   'Content-Type': 'application/json'}
+        request = {'headers': headers}
+        if method_verb == 'POST':
+            request['json'] = params
+        return self.uri + endpoint_path, request
+
+
+class QryptosREST(APIClient):
+    """
+    The Qryptos Api requires the API version to be designated in each requests's
+    header as {'X-Quoine-API-Version': 2}
+    """
+    def __init__(self, key=None, secret=None, api_version=None,
+                 url='https://api.qryptos.com', timeout=5):
+        if not jwt_available:
+            raise SystemError("No JWT Installed! Qryptos API Unavailable!")
+        super(QryptosREST, self).__init__(url, api_version=api_version,
                                          key=key, secret=secret, timeout=timeout)
 
     def sign(self, uri, endpoint, endpoint_path, method_verb, *args, **kwargs):
