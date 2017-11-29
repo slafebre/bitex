@@ -29,3 +29,10 @@ class QoinFormatter(Formatter):
     @staticmethod
     def order_status(data, *args, **kwargs):
         return data
+
+    @staticmethod
+    def order_book(data, *args, **kwargs):
+        return {
+            'bids': [d for d in data['buy_price_levels']],
+            'asks': [d for d in data['sell_price_levels']]
+        }

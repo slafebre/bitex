@@ -37,13 +37,19 @@ class Quoine(QuoineREST):
 
     @return_api_response(fmt.ticker)
     def ticker(self, pair, **kwargs):
-        pair = self.pairs[pair]
-        return self.public_query('products/%s' % pair, params=kwargs)
+        if pair in self.pairs:
+            pair = self.pairs[pair]
+            return self.public_query('products/%s' % pair, params=kwargs)
+        else:
+            return None
 
     @return_api_response(fmt.order_book)
     def order_book(self, pair, **kwargs):
-        pair = self.pairs[pair]
-        return self.public_query('products/%s/price_levels' % pair, params=kwargs)
+        if pair in self.pairs:
+            pair = self.pairs[pair]
+            return self.public_query('products/%s/price_levels' % pair, params=kwargs)
+        else:
+            return None
 
     @return_api_response(fmt.trades)
     def trades(self, pair, **kwargs):

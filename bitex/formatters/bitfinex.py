@@ -31,3 +31,12 @@ class BtfxFormatter(Formatter):
     @staticmethod
     def order_status(data, *args, **kwargs):
         return data['is_live']
+
+    @staticmethod
+    def order_book(data, *args, **kwargs):
+        book = {}
+        for side in ('bids', 'asks'):
+            if side in data:
+                book[side] = [[d['price'], d['amount']]
+                                for d in data[side]]
+        return book

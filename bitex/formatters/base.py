@@ -45,14 +45,14 @@ class Formatter:
     @staticmethod
     def order_book(data, *args, **kwargs):
         """
-        Returns dict of lists of lists of quotes in format [ts, price, size]
+        Returns dict of lists of lists of quotes in format [price, size]
         ex.:
-            {'bids': [['1480941692', '0.014', '10'],
-                      ['1480941690', '0.013', '0.66'],
-                      ['1480941688', '0.012', '3']],
-             'asks': [['1480941691', '0.015', '1'],
-                      ['1480941650', '0.016', '0.67'],
-                      ['1480941678', '0.017', '23']]}
+            {'bids': [['0.014', '10'],
+                      ['0.013', '0.66'],
+                      ['0.012', '3']],
+             'asks': [['0.015', '1'],
+                      ['0.016', '0.67'],
+                      ['0.017', '23']]}
         :param data: requests.response() obj
         :param args:
         :param kwargs:

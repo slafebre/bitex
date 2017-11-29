@@ -37,13 +37,19 @@ class Qryptos(QryptosREST):
 
     @return_api_response(fmt.ticker)
     def ticker(self, pair, **kwargs):
-        pair = self.pairs[pair]
-        return self.public_query('products/%s' % pair, params=kwargs)
+        if pair in self.pairs:
+            pair = self.pairs[pair]
+            return self.public_query('products/%s' % pair, params=kwargs)
+        else:
+            return None
 
     @return_api_response(fmt.order_book)
     def order_book(self, pair, **kwargs):
-        pair = self.pairs[pair]
-        return self.public_query('products/%s/price_levels' % pair, params=kwargs)
+        if pair in self.pairs:
+            pair = self.pairs[pair]
+            return self.public_query('products/%s/price_levels' % pair, params=kwargs)
+        else:
+            return None
 
     @return_api_response(fmt.trades)
     def trades(self, pair, **kwargs):
@@ -89,3 +95,15 @@ class Qryptos(QryptosREST):
     """
     Exchange Specific Methods
     """
+
+    def live_orders(self, pair=None, currency=None):
+        pair_filter = ''
+        currency_filter = ''
+        if pair is not None:
+            pair = self.pairs[pair]
+            pair_filter = '&product_id={}'.format(pair)
+        if currency is not None:
+            currency_filter = '&funding_currency={}'.format(currency)
+        return self.private_query(
+            '/orders?status=live{}{}'.format(pair_filter, currency_filter),
+            method='GET')
