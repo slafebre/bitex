@@ -19,7 +19,15 @@ class GdaxFormatter(Formatter):
 
     @staticmethod
     def order_book(data, *args, **kwargs):
+        if 'bids' in data:
+            bids = data['bids']
+        else:
+            bids = []
+        if 'asks' in data:
+            asks = data['asks']
+        else:
+            asks = []
         return {
-            'bids': [d[:2] for d in data['bids']],
-            'asks': [d[:2] for d in data['asks']]
+            'bids': [d[:2] for d in bids],
+            'asks': [d[:2] for d in asks]
         }
