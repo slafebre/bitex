@@ -26,11 +26,12 @@ from bitex.api.REST.api import APIClient
 
 
 log = logging.getLogger(__name__)
+timeout_seconds = 5
 
 
 class BitfinexREST(APIClient):
     def __init__(self, key=None, secret=None, api_version='v1',
-                 url='https://api.bitfinex.com', timeout=5):
+                 url='https://api.bitfinex.com', timeout=timeout_seconds):
         super(BitfinexREST, self).__init__(url, api_version=api_version,
                                            key=key, secret=secret,
                                            timeout=timeout)
@@ -57,7 +58,7 @@ class BitfinexREST(APIClient):
 
 class BitstampREST(APIClient):
     def __init__(self, user_id='', key=None, secret=None, api_version=None,
-                 url='https://www.bitstamp.net/api', timeout=5):
+                 url='https://www.bitstamp.net/api', timeout=timeout_seconds):
         self.id = user_id
         super(BitstampREST, self).__init__(url, api_version=api_version,
                                            key=key, secret=secret,
@@ -92,7 +93,7 @@ class BitstampREST(APIClient):
 
 class BittrexREST(APIClient):
     def __init__(self, key=None, secret=None, api_version='v1.1',
-                 url='https://bittrex.com/api', timeout=5):
+                 url='https://bittrex.com/api', timeout=timeout_seconds):
         super(BittrexREST, self).__init__(url, api_version=api_version, key=key,
                                           secret=secret, timeout=timeout)
 
@@ -116,7 +117,7 @@ class BittrexREST(APIClient):
 
 class CexioREST(APIClient):
     def __init__(self, key=None, secret=None, api_version='api',
-                 url='https://cex.io', timeout=5):
+                 url='https://cex.io', timeout=timeout_seconds):
         super(CexioREST, self).__init__(url, api_version=api_version,
                                             key=key, secret=secret,
                                             timeout=timeout)
@@ -150,7 +151,7 @@ class CexioREST(APIClient):
 
 class CoincheckREST(APIClient):
     def __init__(self, key=None, secret=None, api_version='api',
-                 url='https://coincheck.com', timeout=5):
+                 url='https://coincheck.com', timeout=timeout_seconds):
         super(CoincheckREST, self).__init__(url, api_version=api_version,
                                             key=key, secret=secret,
                                             timeout=timeout)
@@ -201,7 +202,7 @@ class GdaxAuth(AuthBase):
 
 class GDAXRest(APIClient):
     def __init__(self, passphrase='', key=None, secret=None, api_version=None,
-                 url='https://api.gdax.com', timeout=5):
+                 url='https://api.gdax.com', timeout=timeout_seconds):
         self.passphrase = passphrase
         super(GDAXRest, self).__init__(url, api_version=api_version, key=key,
                                        secret=secret, timeout=timeout)
@@ -227,7 +228,7 @@ class GDAXRest(APIClient):
 
 class KrakenREST(APIClient):
     def __init__(self, key=None, secret=None, api_version='0',
-                 url='https://api.kraken.com', timeout=5):
+                 url='https://api.kraken.com', timeout=timeout_seconds):
         super(KrakenREST, self).__init__(url, api_version=api_version,
                                          key=key, secret=secret, timeout=timeout)
 
@@ -259,7 +260,7 @@ class KrakenREST(APIClient):
 
 class ItbitREST(APIClient):
     def __init__(self, user_id = '', key=None, secret=None, api_version='v1',
-                 url='https://api.itbit.com', timeout=5):
+                 url='https://api.itbit.com', timeout=timeout_seconds):
         self.userId = user_id
         super(ItbitREST, self).__init__(url, api_version=api_version,
                                  key=key, secret=secret, timeout=timeout)
@@ -311,7 +312,7 @@ class ItbitREST(APIClient):
 
 class OKCoinREST(APIClient):
     def __init__(self, key=None, secret=None, api_version='v1',
-                 url='https://www.okcoin.com/api', timeout=5):
+                 url='https://www.okcoin.com/api', timeout=timeout_seconds):
         super(OKCoinREST, self).__init__(url, api_version=api_version,
                                          key=key, secret=secret,
                                          timeout=timeout)
@@ -333,7 +334,7 @@ class OKCoinREST(APIClient):
 
 class BTCERest(APIClient):
     def __init__(self, key=None, secret=None, api_version='3',
-                 url='https://btc-e.com/api', timeout=5):
+                 url='https://btc-e.com/api', timeout=timeout_seconds):
         super(BTCERest, self).__init__(url, api_version=api_version, key=key,
                                          secret=secret, timeout=timeout)
 
@@ -360,7 +361,7 @@ class BTCERest(APIClient):
 
 class CCEXRest(APIClient):
     def __init__(self, key=None, secret=None, api_version=None,
-                 url='https://c-cex.com/t', timeout=5):
+                 url='https://c-cex.com/t', timeout=timeout_seconds):
         super(CCEXRest, self).__init__(url, api_version=api_version, key=key,
                                          secret=secret, timeout=timeout)
 
@@ -387,7 +388,7 @@ class CCEXRest(APIClient):
 
 class CryptopiaREST(APIClient):
     def __init__(self, key=None, secret=None, api_version=None,
-                 url='https://www.cryptopia.co.nz/api', timeout=5):
+                 url='https://www.cryptopia.co.nz/api', timeout=timeout_seconds):
         super(CryptopiaREST, self).__init__(url, api_version=api_version, key=key,
                                          secret=secret, timeout=timeout)
 
@@ -422,7 +423,7 @@ class CryptopiaREST(APIClient):
 
 class GeminiREST(APIClient):
     def __init__(self, key=None, secret=None, api_version='v1',
-                 url='https://api.gemini.com', timeout=5):
+                 url='https://api.gemini.com', timeout=timeout_seconds):
         super(GeminiREST, self).__init__(url, api_version=api_version, key=key,
                                          secret=secret, timeout=timeout)
 
@@ -445,7 +446,7 @@ class GeminiREST(APIClient):
 
 class YunbiREST(APIClient):
     def __init__(self, key=None, secret=None, api_version='v2',
-                 url='https://yunbi.com/api', timeout=5):
+                 url='https://yunbi.com/api', timeout=timeout_seconds):
         super(YunbiREST, self).__init__(url, api_version=api_version, key=key,
                                          secret=secret, timeout=timeout)
 
@@ -468,7 +469,7 @@ class YunbiREST(APIClient):
 
 class RockTradingREST(APIClient):
     def __init__(self, key=None, secret=None, api_version='v1',
-                 url='https://api.therocktrading.com', timeout=5):
+                 url='https://api.therocktrading.com', timeout=timeout_seconds):
         super(RockTradingREST, self).__init__(url, api_version=api_version,
                                               key=key, secret=secret,
                                               timeout=timeout)
@@ -493,7 +494,7 @@ class RockTradingREST(APIClient):
 
 class PoloniexREST(APIClient):
     def __init__(self, key=None, secret=None, api_version=None,
-                 url='https://poloniex.com', timeout=5):
+                 url='https://poloniex.com', timeout=timeout_seconds):
         super(PoloniexREST, self).__init__(url, api_version=api_version,
                                            key=key, secret=secret,
                                            timeout=timeout)
@@ -518,7 +519,7 @@ class QuoineREST(APIClient):
     header as {'X-Quoine-API-Version': 2}
     """
     def __init__(self, key=None, secret=None, api_version=None,
-                 url='https://api.quoine.com', timeout=5):
+                 url='https://api.quoine.com', timeout=10):
         if not jwt_available:
             raise SystemError("No JWT Installed! Quoine API Unavailable!")
         super(QuoineREST, self).__init__(url, api_version=api_version,
@@ -549,7 +550,7 @@ class QryptosREST(APIClient):
     header as {'X-Quoine-API-Version': 2}
     """
     def __init__(self, key=None, secret=None, api_version=None,
-                 url='https://api.qryptos.com', timeout=5):
+                 url='https://api.qryptos.com', timeout=timeout_seconds):
         if not jwt_available:
             raise SystemError("No JWT Installed! Qryptos API Unavailable!")
         super(QryptosREST, self).__init__(url, api_version=api_version,
@@ -576,7 +577,7 @@ class QryptosREST(APIClient):
 
 class QuadrigaCXREST(APIClient):
     def __init__(self, key=None, secret=None, client_id='', api_version='v2',
-                 url='https://api.quoine.com/', timeout=5):
+                 url='https://api.quoine.com/', timeout=timeout_seconds):
         self.client_id = client_id
         super(QuadrigaCXREST, self).__init__(url, api_version=api_version,
                                              key=key, secret=secret,
@@ -608,7 +609,7 @@ class QuadrigaCXREST(APIClient):
 
 class HitBTCREST(APIClient):
     def __init__(self, key=None, secret=None, api_version='1',
-                 url='http://api.hitbtc.com/api/', timeout=5):
+                 url='http://api.hitbtc.com/api/', timeout=timeout_seconds):
         api_version = '' if not api_version else api_version
         super(HitBTCREST, self).__init__(url, api_version=api_version,
                                          key=key, secret=secret,
@@ -632,7 +633,7 @@ class HitBTCREST(APIClient):
 
 class VaultoroREST(APIClient):
     def __init__(self, key=None, secret=None, api_version=None,
-                 url='https://api.vaultoro.com', timeout=5):
+                 url='https://api.vaultoro.com', timeout=timeout_seconds):
         api_version = '' if not api_version else api_version
         super(VaultoroREST, self).__init__(url, api_version=api_version,
                                            key=key, secret=secret,
@@ -656,7 +657,7 @@ class VaultoroREST(APIClient):
 
 class BterREST(APIClient):
     def __init__(self, key=None, secret=None, api_version=None,
-                 url='http://data.bter.com/api', timeout=5):
+                 url='http://data.bter.com/api', timeout=timeout_seconds):
         api_version = '1' if not api_version else api_version
         super(BterREST, self).__init__(url, api_version=api_version,
                                            key=key, secret=secret,
